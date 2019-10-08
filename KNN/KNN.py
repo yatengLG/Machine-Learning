@@ -41,7 +41,7 @@ class knn(object):
 if __name__ == '__main__':
     from Utils.Data_Reader import data_reader
 
-    iris_reader = data_reader('wine_data.csv',split_rate=0.8)
+    iris_reader = data_reader('wine_data.csv',train_rate=0.8)
     train_features, train_labels, test_features, test_labels = iris_reader.get_all()
 
     fn = knn(samples=train_features,labels=train_labels,k=5, norm=True)
