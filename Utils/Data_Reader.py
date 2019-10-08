@@ -7,8 +7,7 @@ import numpy as np
 __all__ = ['data_reader']
 
 class data_reader(object):
-
-    def __init__(self, csv_file, shuffer=True, split_rate=0.8):
+    def __init__(self, csv_file, shuffer=True, train_rate=0.8):
         assert csv_file.endswith('.csv')
         self.shuffer = shuffer
 
@@ -32,7 +31,7 @@ class data_reader(object):
                     # 分类问题
                     self.labels_list.append(np.asarray(data[-1], dtype=np.int))
         print(" dataset {} has sample :{} , features :{} , label :{}".format(csv_file, self.n_samples, self.n_features, self.n_labels))
-        print(" train sample : {} , test sample :{} ".format(int(self.n_samples*split_rate),self.n_samples-int(self.n_samples*split_rate)))
+        print(" train sample : {} , test sample :{} ".format(int(self.n_samples*train_rate),self.n_samples-int(self.n_samples*train_rate)))
         if self.shuffer:    # 打乱数据
             import random
             data_list = list(zip(self.features_list, self.labels_list))
@@ -40,10 +39,10 @@ class data_reader(object):
             self.features_list, self.labels_list = zip(*data_list)
 
         # 划分数据集
-        self.train_features_list = self.features_list[:int(self.n_samples * split_rate)]
-        self.test_features_list = self.features_list[int(self.n_samples * split_rate):]
-        self.train_labels_list = self.labels_list[:int(self.n_samples * split_rate)]
-        self.test_labels_list = self.labels_list[int(self.n_samples * split_rate):]
+        self.train_features_list = self.features_list[:int(self.n_samples * train_rate)]
+        self.test_features_list = self.features_list[int(self.n_samples * train_rate):]
+        self.train_labels_list = self.labels_list[:int(self.n_samples * train_rate)]
+        self.test_labels_list = self.labels_list[int(self.n_samples * train_rate):]
 
 
     def __getitem__(self, index):
@@ -60,7 +59,7 @@ class data_reader(object):
 
 if __name__ == '__main__':
     # demo  数据读取器
-    iris_reader = data_reader('iris.csv')
+    iris_reader = data_reader('/home/super/PycharmProjects/Machine-Learning/KNN/iris.csv')
     # 特征名称, 标签名称
     features_name = iris_reader.feature_names
     labels_name = iris_reader.label_names
